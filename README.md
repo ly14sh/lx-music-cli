@@ -1,88 +1,189 @@
-# \ud83c\udfb5 LX Music CLI
+# 🎵 LX Music CLI
 
-\u901a\u8fc7\u547d\u4ee4\u884c\u63a7\u5236 LX Music \u684c\u9762\u7aef\u7684\u64ad\u653e\u3001\u641c\u7d22\u3001\u97f3\u91cf\u7b49\u64cd\u4f5c\u3002
+> 通过命令行控制 [LX Music Desktop](https://github.com/lyswhut/lx-music-desktop) 的智能点歌助手
 
-## \u5b89\u88c5
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Node.js](https://img.shields.io/badge/Node.js-%3E%3D18.0-brightgreen)](https://nodejs.org/)
+[![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-blue)]()
+
+---
+
+## ✨ 功能特性
+
+| 功能 | 说明 |
+|------|------|
+| 🎛️ **播放控制** | 播放、暂停、切换、下一首、上一首 |
+| 🔍 **智能搜索** | 搜索歌曲并直接播放（支持路径格式） |
+| 📋 **歌单管理** | 打开/播放酷我、网易云等歌单 |
+| ❤️ **收藏管理** | 收藏/取消收藏当前歌曲 |
+| 🚫 **不喜欢** | 将歌曲加入不喜欢列表 |
+| 🔊 **音量控制** | 调节音量、静音/取消静音 |
+| 📊 **实时监控** | SSE 实时监听播放状态变化 |
+| 📝 **歌词显示** | 获取当前播放歌曲的完整歌词 |
+
+---
+
+## 📦 安装
+
+### 方式一：全局安装（推荐）
 
 ```bash
 npm install -g lx-music-cli
 ```
 
-\u6216\u8005\u76f4\u63a5\u4f7f\u7528 npx:
+### 方式二：本地使用
 
 ```bash
-npx lx-music-cli <command>
-```
-
-## \u524d\u63d0\u6761\u4ef6
-
-1. \u5b89\u88c5\u5e76\u542f\u52a8 [LX Music \u684c\u9762\u7aef](https://github.com/lyswhut/lx-music-desktop)
-2. **\u5f00\u542f OpenAPI \u670d\u52a1**:
-   - \u8bbe\u7f6e -> \u57fa\u672c\u8bbe\u7f6e -> \u5f00\u653e API
-   - \u8bbe\u7f6e\u7aef\u53e3\uff08\u9ed8\u8ba4 23330\uff09
-
-## \u4f7f\u7528
-
-```bash
-# \u64ad\u653e\u63a7\u5236
-lx play        # \u64ad\u653e
-lx pause       # \u6682\u505c
-lx toggle      # \u64ad\u653e/\u6682\u505c\u5207\u6362
-lx next        # \u4e0b\u4e00\u9996
-lx prev        # \u4e0a\u4e00\u9996
-
-# \u641c\u7d22\uff08\u6253\u5f00\u641c\u7d22\u9875\u9762\uff09
-lx search "\u5468\u6770\u4f26"   # \u5728 LX Music \u4e2d\u6253\u5f00\u641c\u7d22\u9875\u9762
-
-# \u72b6\u6001\u67e5\u8be2
-lx status      # \u663e\u793a\u64ad\u653e\u72b6\u6001
-lx now         # \u663e\u793a\u5f53\u524d\u64ad\u653e\u4fe1\u606f
-lx lyric       # \u663e\u793a\u5f53\u524d\u6b4c\u8bcd
-
-# \u97f3\u91cf\u63a7\u5236
-lx volume 50   # \u8bbe\u7f6e\u97f3\u91cf\u4e3a 50%
-lx mute        # \u9759\u97f3
-lx unmute      # \u53d6\u6d88\u9759\u97f3
-
-# \u914d\u7f6e
-lx config                    # \u663e\u793a\u5f53\u524d\u914d\u7f6e
-lx config --port 8080        # \u4fee\u6539\u7aef\u53e3
-lx config --host 0.0.0.0     # \u4fee\u6539\u4e3b\u673a
-```
-
-## \u6280\u672f\u67b6\u6784
-
-| \u529f\u80fd | \u901a\u4fe1\u65b9\u5f0f | \u8bf4\u660e |
-|------|----------|------|
-| \u64ad\u653e/\u6682\u505c/\u4e0b\u4e00\u9996/\u97f3\u91cf\u7b49 | HTTP OpenAPI | \u8c03\u7528 `localhost:port` |
-| \u641c\u7d22 | Scheme URL | `lxmusic://music/search?data=<json>` |
-
-## \u5173\u4e8e `searchPlay` \u7684\u8bf4\u660e
-
-LX Music \u652f\u6301 `searchPlay` Scheme URL\uff0c\u4f46\u6709\u4ee5\u4e0b\u9650\u5236\uff1a
-
-- **\u4e0d\u662f\u771f\u6b63\u7684\u641c\u7d22**\uff1a\u4e0d\u4f1a\u8c03\u7528\u97f3\u4e50\u5e73\u53f0\u7684\u641c\u7d22 API
-- **\u53ea\u80fd\u64ad\u653e\u5df2\u7f13\u5b58\u7684\u6b4c\u66f2**\uff1a\u9700\u8981\u4e4b\u524d\u901a\u8fc7 LX Music \u641c\u7d22/\u64ad\u653e\u8fc7\uff0c\u6709\u7f13\u5b58\u8bb0\u5f55
-- **\u9700\u8981\u7cbe\u786e\u5339\u914d**\uff1a\u63d0\u4f9b\u7684\u6b4c\u66f2\u540d\u3001\u6b4c\u624b\u3001\u4e13\u8f91\u7b49\u4fe1\u606f\u5fc5\u987b\u4e0e\u7f13\u5b58\u5b8c\u5168\u5339\u914d
-
-**\u4f7f\u7528\u793a\u4f8b**\uff1a
-```bash
-# \u53ea\u6709\u5f53\u6b4c\u66f2\u5df2\u5728 LX Music \u4e2d\u6709\u7f13\u5b58\u65f6\u624d\u80fd\u6210\u529f
-lxmusic://music/searchPlay?data={"name":"\u9752\u82b1\u74f7","singer":"\u5468\u6770\u4f26"}
-```
-
-**\u5efa\u8bae**\uff1a
-- \u60f3\u641c\u7d22\u65b0\u6b4c\u66f2\uff1a\u4f7f\u7528 `lx search <\u5173\u952e\u8bcd>` \u6253\u5f00\u641c\u7d22\u9875\u9762
-- \u60f3\u64ad\u653e\u5df2\u77e5\u6b4c\u66f2\uff1a\u5148\u5728 LX Music \u4e2d\u641c\u7d22\u8fc7\uff0c\u7136\u540e\u4f7f\u7528 `searchPlay`
-
-## \u5f00\u53d1
-
-```bash
+git clone https://github.com/ly14sh/lx-music-cli.git
 cd lx-music-cli
 npm install
-npm start -- <command>
 ```
 
-## License
+### 前置要求
 
-MIT
+- [LX Music Desktop](https://github.com/lyswhut/lx-music-desktop) 已安装并运行
+- 在 LX Music 设置中开启 **OpenAPI HTTP 服务**（默认端口 `23330`）
+
+---
+
+## 🚀 快速开始
+
+```bash
+# 播放/暂停
+lx play
+lx pause
+
+# 下一首/上一首
+lx next
+lx prev
+
+# 搜索歌曲（打开搜索页）
+lx search "周杰伦"
+
+# 直接播放歌曲（需精确匹配）
+lx search -p "晴天-周杰伦"
+
+# 查看播放状态
+lx status
+
+# 获取歌词
+lx lyric
+
+# 调节音量
+lx volume 50
+
+# 收藏当前歌曲
+lx collect
+
+# 打开歌单
+lx songlist kw 3373919903
+```
+
+---
+
+## 📖 命令手册
+
+### 播放控制
+
+| 命令 | 说明 |
+|------|------|
+| `lx play` | 开始播放 |
+| `lx pause` | 暂停播放 |
+| `lx toggle` | 切换播放/暂停状态 |
+| `lx next` | 下一首 |
+| `lx prev` | 上一首 |
+
+### 搜索与歌单
+
+| 命令 | 说明 | 示例 |
+|------|------|------|
+| `lx search <关键词>` | 打开搜索页面 | `lx search "周杰伦"` |
+| `lx search -p <歌曲-歌手>` | 直接播放（精确匹配） | `lx search -p "晴天-周杰伦"` |
+| `lx songlist <源> <ID>` | 打开歌单 | `lx songlist kw 3373919903` |
+| `lx songlist-play <源> <ID>` | 播放歌单 | `lx songlist-play wy 123456` |
+
+> **支持的音源**: `kw`(酷我)、`kg`(酷狗)、`tx`(QQ音乐)、`wy`(网易云)、`mg`(咪咕)
+
+### 状态与信息
+
+| 命令 | 说明 |
+|------|------|
+| `lx status` | 显示当前播放状态（歌曲、歌手、进度、音量） |
+| `lx now` | 显示当前播放歌曲信息 |
+| `lx lyric` | 显示当前歌曲歌词 |
+| `lx watch` | SSE 实时监控播放状态变化（按 Ctrl+C 退出） |
+
+### 音量控制
+
+| 命令 | 说明 | 示例 |
+|------|------|------|
+| `lx volume <0-100>` | 设置音量 | `lx volume 50` |
+| `lx mute` | 静音 |
+| `lx unmute` | 取消静音 |
+
+### 收藏管理
+
+| 命令 | 说明 |
+|------|------|
+| `lx collect` | 收藏当前歌曲 |
+| `lx uncollect` | 取消收藏当前歌曲 |
+| `lx dislike` | 将当前歌曲加入不喜欢列表 |
+
+### 配置
+
+| 命令 | 说明 | 示例 |
+|------|------|------|
+| `lx config host <地址>` | 设置服务器地址 | `lx config host 127.0.0.1` |
+| `lx config port <端口>` | 设置服务器端口 | `lx config port 23330` |
+
+---
+
+## ⚙️ 配置说明
+
+配置文件位于用户目录下的 `.lx-music-cli.json`：
+
+```json
+{
+  "host": "127.0.0.1",
+  "port": 23330
+}
+```
+
+---
+
+## 🏗️ 技术架构
+
+```
+┌─────────────────┐     HTTP/OpenAPI      ┌──────────────────┐
+│   lx-music-cli  │ ◄──────────────────► │  LX Music Desktop │
+│   (Node.js CLI) │    Scheme URL         │   (OpenAPI服务)   │
+└─────────────────┘                       └──────────────────┘
+```
+
+- **OpenAPI HTTP**: 播放控制、状态查询、收藏管理
+- **Scheme URL**: 搜索、歌单、不喜欢（`lxmusic://` 协议）
+- **SSE 订阅**: 实时播放状态推送
+
+---
+
+## 📝 注意事项
+
+1. **searchPlay 限制**: `search -p` 命令只能播放**已有缓存记录**的歌曲，需要歌曲名和歌手精确匹配
+2. **OpenAPI 服务**: 确保 LX Music Desktop 的 OpenAPI HTTP 服务已开启
+3. **防火墙**: 确保端口 `23330` 未被防火墙阻止
+
+---
+
+## 🤝 贡献
+
+欢迎提交 Issue 和 Pull Request！
+
+---
+
+## 📄 许可证
+
+[MIT](LICENSE) © ly14sh
+
+---
+
+> 🎶 **让音乐触手可及** —— 用命令行掌控你的音乐世界
