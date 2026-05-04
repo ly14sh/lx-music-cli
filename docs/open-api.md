@@ -1,4 +1,4 @@
-# 开放 API 服务
+﻿# 开放 API 服务
 
 > 来源：https://lxmusic.toside.cn/desktop/open-api
 > 从 v2.7.0 起支持开放 API 服务
