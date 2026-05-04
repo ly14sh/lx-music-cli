@@ -1,0 +1,15 @@
+{
+  "name": "lx-music-cli",
+  "version": "1.0.0",
+  "description": "CLI control for LX Music Desktop via HTTP OpenAPI",
+  "main": "src/index.js",
+  "bin": {
+    "lx": "src/index.js"
+  },
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "keywords": ["lx-music", "cli", "music"],
+  "license": "MIT"
+}

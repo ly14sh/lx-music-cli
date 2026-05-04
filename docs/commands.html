@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LX Music CLI 命令手册</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .card h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card h2 .icon {
+            font-size: 1.3em;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        
+        th, td {
+            text-align: left;
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+            color: #555;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        tr:hover {
+            background: #f8f9fa;
+        }
+        
+        code {
+            background: #f4f4f4;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em;
+            color: #e83e8c;
+        }
+        
+        .command {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.85em;
+        }
+        
+        .description {
+            color: #666;
+            font-size: 0.95em;
+        }
+        
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .note strong {
+            color: #856404;
+        }
+        
+        .success {
+            background: #d4edda;
+            border-left-color: #28a745;
+        }
+        
+        .success strong {
+            color: #155724;
+        }
+        
+        .info {
+            background: #d1ecf1;
+            border-left-color: #17a2b8;
+        }
+        
+        .info strong {
+            color: #0c5460;
+        }
+        
+        .example-box {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+        }
+        
+        .example-box h4 {
+            color: #555;
+            margin-bottom: 10px;
+            font-size: 0.95em;
+        }
+        
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75em;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+        
+        .tag.http {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        
+        .tag.scheme {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+        
+        .tag.sse {
+            background: #e8f5e9;
+            color: #388e3c;
+        }
+        
+        footer {
+            text-align: center;
+            color: white;
+            opacity: 0.8;
+            margin-top: 40px;
+            padding: 20px;
+        }
+        
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        @media (max-width: 600px) {
+            .two-col {
+                grid-template-columns: 1fr;
+            }
+            
+            header h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎵 LX Music CLI</h1>
+            <p>命令行控制 LX Music 桌面端完整手册</p>
+        </header>
+
+        <div class="card">
+            <h2><span class="icon">📋</span> 快速开始</h2>
+            <div class="example-box">
+                <h4>安装</h4>
+                <pre>npm install -g lx-music-cli
+
+# 或使用 npx
+npx lx-music-cli &lt;command&gt;</pre>
+            </div>
+            <div class="note info">
+                <strong>前提条件：</strong>确保 LX Music 桌面端已启动，并在设置中开启"开放 API"（默认端口 23330）
+            </div>
+        </div>
+
+        <div class="card">
+            <h2><span class="icon">▶️</span> 播放控制</h2>
+            <table>
+                <tr>
+                    <th>命令</th>
+                    <th>说明</th>
+                    <th>通信方式</th>
+                </tr>
+                <tr>
+                    <td><span class="command">lx play</span></td>
+                    <td class="description">开始播放</td>
+                    <td><span class="tag http">HTTP</span></td>
+                </tr>
+                <tr>
+                    <td><span class="command">lx pause</span></td>
+                    <td class="description">暂停播放</td>
+                    <td><span class="tag http">HTTP</span></td>
+                </tr>
+                <tr>
+                    <td><span class="command">lx toggle</span></td>
+                    <td class="description">播放/暂停切换</td>
+                    <td><span class="tag http">HTTP</span></td>
+                </tr>
+                <tr>
+                    <td><span class="command">lx next</span></td>
+                    <td class="description">下一首</td>
+                    <td><span class="tag http">HTTP</span></td>
+                </tr>
+                <tr>
+                    <td><span class="command">lx prev</span></td>
+                    <td class="description">上一首</td>
+                    <td><span class="tag http">HTTP</span></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2><span class="icon">🔍</span> 搜索</h2>
+            <table>
+                <tr>
+                    <th>命令</th>
+                    <th>说明</th>
+                    <th>通信方式</th>
+                </tr>
+                <tr>
+                    <td><span class="command">lx search &lt;关键词&gt;</span></td>
+                    <td class="description">在 LX Music 中打开搜索页面</td>
+                    <td><span class="tag scheme">Scheme</span></td>
+                </tr>
+            </table>
+            <div class="example-box">
+                <h4>示例</h4>
+                <pre>lx search "周杰伦"
+lx search "晴天"
+lx search "摇滚"</pre>
+            </div>
+            <div class="note">
+                <strong>注意：</strong>此命令仅打开搜索页面，不会自动播放。需要用户在界面中选择歌曲。
+            </div>
+        </div>
+
+        <div class="card">
+            <h2><span class="icon">📊</span> 状态查询</h2>
+            <table>
+                <tr>
+                    <th>命令</th>
+                    <th>说明</th>
+                    <th>通信方式</th>
+                </tr>
+                <tr>
+                    <td><span class="command">lx status</span></td>
+                    <td class="description">显示完整播放状态</td>
+                    <td><span class="tag http">HTTP</span></td>
+                </tr>
+                <tr>
+                    <td><span class="command">lx now</span></td>
+                    <td class="description">显示当前播放的歌曲信息</td>
+                    <td><span class="tag http">HTTP</span></td>
+                </tr>
+                <tr>
+                    <td><span class="command">lx lyric</span></td>
+                    <td class="description">显示当前歌词</td>
+                    <td><span class="tag http">HTTP</span></td>
+                </tr>
+                <tr>
+                    <td><span class="command">lx watch</span></td>
+                    <td class="description">实时监控播放状态（SSE 流）</td>
+                    <td><span class="tag sse">SSE</span></td>
+                </tr>
+            </table>
+            <div class="example-box">
+                <h4>watch 命令输出示例</h4>
+                <pre>👁️  实时监控播放状态...
+   连接: http://127.0.0.1:23330/subscribe-player-status
+   按 Ctrl+C 退出
+
+[22:30:15] ▶️ 状态: playing
+[22:30:15] 🎵 歌曲: 晴天
+[22:30:15] 🎤 歌手: 周杰伦
+[22:30:16] 📝 歌词: 为你翘课的那一天
+[22:30:18] 📍 进度: 0:45</pre>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2><span class="icon">🔊</span> 音量控制</h2>
+            <table>
+                <tr>
+                    <th>命令</th>
+                    <th>说明</th>
+                    <th>通信方式</th>
+                </tr>
+                <tr>
+                    <td><span class="command">lx volume &lt;0-100&gt;</span></td>
+                    <td class="description">设置音量百分比</td>
+                    <td><span class="tag http">HTTP</span></td>
+                </tr>
+                <tr>
+                    <td><span class="command">lx mute</span></td>
+                    <td class="description">静音</td>
+                    <td><span class="tag http">HTTP</span></td>
+                </tr>
+                <tr>
+                    <td><span class="command">lx unmute</span></td>
+                    <td class="description">取消静音</td>
+                    <td><span class="tag http">HTTP</span></td>
+                </tr>
+            </table>
+            <div class="example-box">
+                <h4>示例</h4>
+                <pre>lx volume 50    # 设置音量为 50%
+lx volume 100   # 最大音量
+lx mute         # 静音
+lx unmute       # 恢复音量</pre>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2><span class="icon">📁</span> 歌单操作</h2>
+            <p style="margin-bottom: 15px; color: #666;">通过 Scheme URL 打开或播放歌单</p>
+            <table>
+                <tr>
+                    <th>命令</th>
+                    <th>说明</th>
+                    <th>通信方式</th>
+                </tr>
+                <tr>
+                    <td><span class="command">lx open songlist &lt;source&gt; &lt;id&gt;</span></td>
+                    <td class="description">打开歌单页面</td>
+                    <td><span class="tag scheme">Scheme</span></td>
+                </tr>
+                <tr>
+                    <td><span class="command">lx play songlist &lt;source&gt; &lt;id&gt;</span></td>
+                    <td class="description">直接播放歌单</td>
+                    <td><span class="tag scheme">Scheme</span></td>
+                </tr>
+            </table>
+            <div class="example-box">
+                <h4>示例</h4>
+                <pre># 打开酷我音乐歌单
+lx open songlist kw 3373919903
+
+# 播放网易云音乐歌单
+lx play songlist wy 123456789
+
+# 支持的 source
+kw - 酷我音乐
+kg - 酷狗音乐
+wy - 网易云音乐
+tx - QQ音乐
+mg - 咪咕音乐</pre>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2><span class="icon">⚙️</span> 配置</h2>
+            <table>
+                <tr>
+                    <th>命令</th>
+                    <th>说明</th>
+                </tr>
+                <tr>
+                    <td><span class="command">lx config</span></td>
+                    <td class="description">显示当前配置（host 和 port）</td>
+                </tr>
+                <tr>
+                    <td><span class="command">lx config --host &lt;ip&gt;</span></td>
+                    <td class="description">修改主机地址</td>
+                </tr>
+                <tr>
+                    <td><span class="command">lx config --port &lt;port&gt;</span></td>
+                    <td class="description">修改端口号</td>
+                </tr>
+            </table>
+            <div class="example-box">
+                <h4>示例</h4>
+                <pre>lx config                    # 查看配置
+lx config --port 8080        # 修改端口
+lx config --host 0.0.0.0     # 允许远程访问
+lx config --host 127.0.0.1 --port 23330  # 同时修改</pre>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2><span class="icon">🔗</span> Scheme URL 详解</h2>
+            <p style="margin-bottom: 15px; color: #666;">LX Music 支持通过 lxmusic:// 协议进行深度链接操作</p>
+            
+            <div class="two-col">
+                <div>
+                    <h4 style="color: #667eea; margin-bottom: 10px;">音乐操作 (music)</h4>
+                    <pre style="font-size: 0.85em;"># 搜索并播放（需缓存）
+lxmusic://music/searchPlay?data={
+  "name": "青花瓷",
+  "singer": "周杰伦"
+}
+
+# 打开搜索页面
+lxmusic://music/search?data={
+  "keywords": "周杰伦"
+}</pre>
+                </div>
+                <div>
+                    <h4 style="color: #667eea; margin-bottom: 10px;">歌单操作 (songlist)</h4>
+                    <pre style="font-size: 0.85em;"># 打开歌单
+lxmusic://songlist/open?data={
+  "source": "kw",
+  "id": "3373919903"
+}
+
+# 播放歌单
+lxmusic://songlist/play?data={
+  "source": "kw",
+  "id": "3373919903",
+  "index": 0
+}</pre>
+                </div>
+            </div>
+            
+            <div class="note success" style="margin-top: 20px;">
+                <strong>支持的 source 值：</strong>kw (酷我), kg (酷狗), wy (网易云), tx (QQ), mg (咪咕)
+            </div>
+        </div>
+
+        <div class="card">
+            <h2><span class="icon">⚠️</span> 重要说明</h2>
+            
+            <div class="note">
+                <strong>关于 searchPlay：</strong><br>
+                searchPlay 不是真正的搜索，它只能播放已有缓存的歌曲。需要歌曲名、歌手等信息与缓存完全匹配。
+                建议先用 <code>lx search</code> 在界面中搜索，之后再使用 searchPlay。
+            </div>
+            
+            <div class="note info">
+                <strong>通信方式说明：</strong><br>
+                • <b>HTTP</b>：通过 OpenAPI 端口（默认 23330）发送请求<br>
+                • <b>Scheme</b>：通过 lxmusic:// 协议调用桌面端<br>
+                • <b>SSE</b>：Server-Sent Events 实时流，用于 watch 命令
+            </div>
+        </div>
+
+        <div class="card">
+            <h2><span class="icon">🛠️</span> 开发相关</h2>
+            <div class="example-box">
+                <h4>本地开发</h4>
+                <pre>cd lx-music-cli
+npm install
+npm start -- &lt;command&gt;    # 例如: npm start -- status</pre>
+            </div>
+            <div class="example-box">
+                <h4>项目结构</h4>
+                <pre>lx-music-cli/
+├── src/
+│   ├── index.js           # 入口与命令解析
+│   ├── commands/
+│   │   ├── play.js        # 播放控制
+│   │   ├── skip.js        # 下一首/上一首
+│   │   ├── search.js      # 搜索
+│   │   ├── status.js      # 状态查询
+│   │   ├── volume.js      # 音量控制
+│   │   ├── watch.js       # 实时监控
+│   │   └── config.js      # 配置管理
+│   └── utils.js           # 工具函数
+├── package.json
+└── README.md</pre>
+            </div>
+        </div>
+
+        <footer>
+            <p>LX Music CLI · 命令行控制 LX Music 桌面端</p>
+            <p style="margin-top: 10px; font-size: 0.9em;">Made with ❤️ for music lovers</p>
+        </footer>
+    </div>
+</body>
+</html>
